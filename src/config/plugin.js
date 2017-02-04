@@ -1,29 +1,24 @@
 const webpack = require("webpack");
 const CSSPlugin = require("extract-text-webpack-plugin");
 
+//noinspection JSUnresolvedFunction
 const plugins = [
+    /*shimming*/
+    new webpack.ProvidePlugin({
+        $: "jquery",
+        jQuery: "jquery",
+        "window.jQuery": "jquery",
+        "window.$": "jquery",
+    }),
+    /*commons*/
     new webpack.optimize.CommonsChunkPlugin({
-        filename: "common.js",
+        name: "commons",
+        filename: "js/[name].js",
         minChunks: 3,
     }),
-    new CSSPlugin("[name].css")
+    new CSSPlugin("css/[name].css")
 ];
 
-const HTMLPlugin = require("html-webpack-plugin");
-const pages = require("./pages");
-const base = require("./base");
-pages.forEach((page) => {
-    plugins.push(new HTMLPlugin({
-        title: page,
-        filename: "html/" + page + ".html",
-        chunks: [page, "commons"],
-        template: "./src/js/" + page + ".js",
-        inject: true,
-        hash: false,
-        showErrors: true,
-        // minify: {},
-        xhtml: true
-    }));
-});
-
+//noinspection JSUnresolvedFunction
+require("./page").forEach(page => plugins.push(page));
 module.exports = plugins;

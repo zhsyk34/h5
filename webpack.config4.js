@@ -1,7 +1,7 @@
 const webpack = require("webpack");
 
-const HtmlPlugin = require("html-webpack-plugin");
-const CssPlugin = require("extract-text-webpack-plugin");
+const plugins = require("./src/config/plugin");
+const cssPlugin = require("extract-text-webpack-plugin");
 
 //noinspection JSUnresolvedFunction
 const commonsChunkPlugin = new webpack.optimize.CommonsChunkPlugin({
@@ -27,7 +27,7 @@ module.exports = {
                 test: /\.css$/,
                 // loader: "style!css"
                 //单独打包CSS
-                loader: CssPlugin.extract("style-loader", "css-loader")
+                loader: cssPlugin.extract("style-loader", "css-loader")
             },
             // {
             //     // 图片加载器，雷同file-loader，更适合图片，可以将较小的图片转成base64，减少http请求
@@ -43,26 +43,6 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-        // // new hp({
-        // //     title: "index",
-        // //     filename: "a.html",
-        // //     // template: ""
-        // // }),
-        //commons 模块
-        commonsChunkPlugin,
-        new HtmlPlugin({
-            title: "layout",
-            filename: "html/layout.html",
-            chunks: [],
-            template: "./src/js/index.js",//指定为一个js文件而非普通的模板文件
-            inject: true,
-            hash: false,
-            showErrors: true,
-            minify: {},
-            xhtml: true
-        }),
-        new CssPlugin("css/[name].css")
-    ]
+    plugins: plugins
 };
 

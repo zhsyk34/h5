@@ -2,8 +2,8 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
-const dirconsts = require('../base/dir-consts.config.js');
-const pageArr = require('../base/page-entries.config.js');
+const dirconsts = require('../root/dir-consts.config.js');
+const pageArr = require('../root/page-entries.config.js');
 
 const configPlugins = [
     /* 全局shimming */
